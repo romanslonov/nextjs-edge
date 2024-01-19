@@ -9,10 +9,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-export async function signin(state: any, formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
+export async function signin({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   if (z.string().min(1).email().safeParse(email).success !== true) {
     return { error: "Email is invalid." };
   }

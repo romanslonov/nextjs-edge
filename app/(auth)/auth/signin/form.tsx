@@ -2,25 +2,34 @@
 
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
-import { Message } from "@/ui/message";
-import { useFormState } from "react-dom";
+import { useState } from "react";
 
 export function SigninForm({
   action,
 }: {
-  action: (
-    prevState: any,
-    formData: FormData
-  ) => Promise<ActionResult | undefined>;
+  action: (data: { email: string; password: string }) => Promise<void>;
 }) {
-  const [state, formAction] = useFormState(action, { error: null });
+  const [email, setEmail] = useState("email");
+  const [password, setPassword] = useState("password");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsSubmitting(true);
+    await action({ email, password });
+  }
 
   return (
-    <form action={formAction} className="flex flex-col gap-4 max-w-sm mx-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 max-w-sm mx-auto"
+    >
       <div className="flex flex-col gap-2">
         <Input
           className="bg-transparent border p-4"
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           name="email"
           placeholder="example@domain.com"
           required
@@ -31,13 +40,14 @@ export function SigninForm({
           className="bg-transparent border p-4"
           type="password"
           name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="********"
           required
         />
       </div>
-      {state?.error && <Message>{state.error}</Message>}
       <Button type="submit" className="w-full">
-        Submit
+        {isSubmitting ? "Loading..." : "Submit"}
       </Button>
     </form>
   );
