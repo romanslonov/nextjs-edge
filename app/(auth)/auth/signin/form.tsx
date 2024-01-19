@@ -7,10 +7,13 @@ import { useState } from "react";
 export function SigninForm({
   action,
 }: {
-  action: (data: { email: string; password: string }) => Promise<void>;
+  action: (data: {
+    email: string;
+    password: string;
+  }) => Promise<{ error: string }>;
 }) {
-  const [email, setEmail] = useState("email");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
