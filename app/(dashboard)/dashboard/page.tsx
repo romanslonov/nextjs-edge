@@ -2,6 +2,8 @@ import { getUser } from "@/lib/get-user";
 import { Button } from "@/ui/button";
 import { logout } from "./actions";
 
+export const runtime = "edge";
+
 export default async function DashboardPage() {
   const user = await getUser();
 
