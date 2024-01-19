@@ -1,6 +1,7 @@
 import { getUser } from "@/lib/get-user";
 import { Button } from "@/ui/button";
 import { logout } from "./actions";
+import { redirect } from "next/navigation";
 
 export const runtime = "edge";
 
@@ -14,6 +15,7 @@ export default async function DashboardPage() {
         action={async () => {
           "use server";
           await logout();
+          redirect("/login");
         }}
       >
         <Button type="submit">Logout</Button>
