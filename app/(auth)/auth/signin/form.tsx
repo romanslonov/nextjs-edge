@@ -7,10 +7,7 @@ import { useState } from "react";
 export function SigninForm({
   action,
 }: {
-  action: (data: {
-    email: string;
-    password: string;
-  }) => Promise<{ error: string }>;
+  action: (data: { email: string; password: string }) => Promise<any>;
 }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
